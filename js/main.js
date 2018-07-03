@@ -67,6 +67,14 @@ $('.button-container').on('click', '.button', function() {
         action_array.push(value);
         number_string = '';
     }
+    if (value == 'AC') {
+        number_string = '',
+        action_array = [],
+        result = 0;
+        number = 0;
+        screen = '';
+        $('.calc-screen').html(screen);
+    }
     
       console.log(action_array);
 });
@@ -79,7 +87,16 @@ function calculationFunction(action_array){
             result = action_array[0];
             return result;
         }
+
         
+        if (action_array[i] == ','){
+            dot_len = action_array[i + 1].toString().length;
+            dot_num = action_array[i + 1] * 10 ** (-dot_len);
+            new_num = action_array[i-1] + dot_num;
+            action_array.splice(i-1, 3, new_num);
+            calculationFunction(action_array);
+            break;
+        }
         if (action_array[i] == '×') {
             new_num = action_array[i-1] * action_array[i + 1];
             action_array.splice(i-1, 3, new_num);
