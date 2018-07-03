@@ -24,14 +24,34 @@ function paintRightCol() {
 
 
 var number_string = '',
-    action_array = [];
+    action_array = [],
+    result = 0;
+    number = 0;
+    screen = '';
 
 $('.button-container').on('click', '.button', function() {
     
-
     value = $(this).val();
 
-    if (!isNaN(parseInt(value))) {
+    screen += value;
+    $('.calc-screen').html(screen);
+
+    if (value == '='){
+        action_array.push(number);
+        if (action_array.length == 1) {
+            result = 0;
+        } else {
+            calculationFunction(action_array);
+        }
+        $('.calc-screen').html(screen + result);
+        console.log('result', result);
+        action_array = [];
+        number_string = '';
+        screen = '';
+        
+
+    } else if (!isNaN(parseInt(value))) {
+
         number_string += value;
 
         num_len = number_string.length;
@@ -40,60 +60,60 @@ $('.button-container').on('click', '.button', function() {
         for ( var i=0; i<num_len; i++) {
             number += number_string[i] * 10 ** (num_len - i -1);
         }
-
-
-
+     
     } else {
-        
+
         action_array.push(number);
         action_array.push(value);
+        number_string = '';
+    }
+    
+      console.log(action_array);
+});
 
-        switch (value){
-            case 'AC':
+function calculationFunction(action_array){
 
+    for (var i = 0; i < action_array.length; i++){
+
+        if (action_array.length == 1) {
+            result = action_array[0];
+            return result;
+        }
+        
+        if (action_array[i] == '×') {
+            new_num = action_array[i-1] * action_array[i + 1];
+            action_array.splice(i-1, 3, new_num);
+            calculationFunction(action_array);
             break;
-            case '±':
-
+        }
+        if (action_array[i] == '÷') {
+            new_num = action_array[i-1] / action_array[i + 1];
+            action_array.splice(i-1, 3, new_num);
+            calculationFunction(action_array);
             break;
-            case '%':
-
+        }
+        if (action_array[i] == '+') {
+            new_num = action_array[i-1] + action_array[i + 1];
+            action_array.splice(i-1, 3, new_num);
+            calculationFunction(action_array);
             break;
-            case '÷':
-
+        }
+        if (action_array[i] == '-') {
+            new_num = action_array[i-1] - action_array[i + 1];
+            action_array.splice(i-1, 3, new_num);
+            calculationFunction(action_array);
             break;
-            case '×':
-
-            break;
-            case '-':
-
-            break;
-            case '+':
-
-            break;
-            case 'DEL':
-
-            break;
-            case ',':
-
-            break;
-            default:
-            result
-            return result
         }
 
     }
-    
-
-    console.log(number_string, 'afaf', number, 'arar', action_array);
-
-
-   
-        
 
 
 
 
-});
+}
+
+
+
 
 
 
