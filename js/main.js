@@ -48,6 +48,7 @@ $('.button-container').on('click', '.button', function() {
         action_array = [];
         number_string = '';
         screen = '';
+        number = 0;
         
 
     } else if (!isNaN(parseInt(value))) {
@@ -80,15 +81,13 @@ $('.button-container').on('click', '.button', function() {
 });
 
 function calculationFunction(action_array){
-
+    
+    if (action_array.length == 1) {
+        result = action_array[0];
+        return result;
+    }
+    
     for (var i = 0; i < action_array.length; i++){
-
-        if (action_array.length == 1) {
-            result = action_array[0];
-            return result;
-        }
-
-        
         if (action_array[i] == ','){
             dot_len = action_array[i + 1].toString().length;
             dot_num = action_array[i + 1] * 10 ** (-dot_len);
@@ -97,36 +96,41 @@ function calculationFunction(action_array){
             calculationFunction(action_array);
             break;
         }
-        if (action_array[i] == '×') {
-            new_num = action_array[i-1] * action_array[i + 1];
-            action_array.splice(i-1, 3, new_num);
-            calculationFunction(action_array);
-            break;
-        }
-        if (action_array[i] == '÷') {
-            new_num = action_array[i-1] / action_array[i + 1];
-            action_array.splice(i-1, 3, new_num);
-            calculationFunction(action_array);
-            break;
-        }
-        if (action_array[i] == '+') {
-            new_num = action_array[i-1] + action_array[i + 1];
-            action_array.splice(i-1, 3, new_num);
-            calculationFunction(action_array);
-            break;
-        }
-        if (action_array[i] == '-') {
-            new_num = action_array[i-1] - action_array[i + 1];
-            action_array.splice(i-1, 3, new_num);
-            calculationFunction(action_array);
-            break;
-        }
-
     }
+        
+        for (var i = 0; i < action_array.length; i++){
+            if (action_array[i] == '×') {
+                new_num = action_array[i-1] * action_array[i + 1];
+                action_array.splice(i-1, 3, new_num);
+                calculationFunction(action_array);
+                break;
+            }
+        }
 
-
-
-
+        for (var i = 0; i < action_array.length; i++){
+            if (action_array[i] == '÷') {
+                new_num = action_array[i-1] / action_array[i + 1];
+                action_array.splice(i-1, 3, new_num);
+                calculationFunction(action_array);
+                break;
+            }
+        }
+        for (var i = 0; i < action_array.length; i++){
+            if (action_array[i] == '+') {
+                new_num = action_array[i-1] + action_array[i + 1];
+                action_array.splice(i-1, 3, new_num);
+                calculationFunction(action_array);
+                break;
+            }
+        }
+        for (var i = 0; i < action_array.length; i++){
+            if (action_array[i] == '-') {
+                new_num = action_array[i-1] - action_array[i + 1];
+                action_array.splice(i-1, 3, new_num);
+                calculationFunction(action_array);
+                break;
+            }
+        }
 }
 
 
